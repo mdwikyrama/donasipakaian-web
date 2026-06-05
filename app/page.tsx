@@ -314,19 +314,18 @@ export default function HomePage() {
           </div>
 
           {/* Circular flow */}
-          <div className="relative mx-auto aspect-square w-full max-w-md">
+          <div className="relative mx-auto aspect-square w-[72%] max-w-65 sm:w-full sm:max-w-md">
             {/* Outer dashed circle */}
             <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#7C3AED]/40" />
             {/* Inner solid circle with center text */}
-            <div className="absolute inset-10 flex items-center justify-center rounded-full bg-linear-to-br from-[#7C3AED] to-[#4B1D78] text-center text-white shadow-xl shadow-violet-300/40 sm:inset-14">
-              <div className="px-6">
+            <div className="absolute inset-7 flex items-center justify-center rounded-full bg-linear-to-br from-[#7C3AED] to-[#4B1D78] text-center text-white shadow-xl shadow-violet-300/40 sm:inset-10 md:inset-14">
+              <div className="px-3 sm:px-6">
                 <Heart
                   aria-hidden
-                  className="mx-auto mb-2"
-                  size={28}
+                  className="mx-auto mb-1.5 h-5 w-5 sm:h-7 sm:w-7"
                   strokeWidth={2.5}
                 />
-                <p className="text-lg font-bold leading-tight sm:text-xl">
+                <p className="text-sm font-bold leading-tight sm:text-lg md:text-xl">
                   Kebaikan
                   <br />
                   Berputar
@@ -350,13 +349,13 @@ export default function HomePage() {
                       : "left-0 top-1/2 -translate-x-1/2 -translate-y-1/2";
               return (
                 <div
-                  className={`absolute ${posClass} flex flex-col items-center gap-1`}
+                  className={`absolute ${posClass} flex flex-col items-center gap-0.5 sm:gap-1`}
                   key={node.label}
                 >
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#EDE3FF] bg-white text-[#7C3AED] shadow-md shadow-violet-200">
-                    <node.icon aria-hidden size={22} />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#EDE3FF] bg-white text-[#7C3AED] shadow-md shadow-violet-200 sm:h-14 sm:w-14">
+                    <node.icon aria-hidden className="h-4 w-4 sm:h-5 sm:w-5" />
                   </span>
-                  <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-semibold text-[#4B1D78] shadow-sm">
+                  <span className="rounded-full bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold text-[#4B1D78] shadow-sm sm:px-2.5 sm:text-xs">
                     {node.label}
                   </span>
                 </div>
