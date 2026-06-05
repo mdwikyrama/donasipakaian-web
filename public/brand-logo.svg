@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 310" role="img" aria-labelledby="title desc">
+  <title id="title">DonasiPakaian.co</title>
+  <desc id="desc">Logo donasi pakaian dengan gantungan, pakaian, dan panah siklus berkelanjutan.</desc>
+  <defs>
+    <linearGradient id="cycle" x1="150" x2="560" y1="50" y2="185" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA" />
+      <stop offset="0.55" stop-color="#7C3AED" />
+      <stop offset="1" stop-color="#312E81" />
+    </linearGradient>
+  </defs>
+  <rect width="760" height="310" rx="36" fill="#FAF8FF" />
+  <g fill="none" stroke="url(#cycle)" stroke-linecap="round" stroke-linejoin="round" stroke-width="12">
+    <path d="M346 45c0-28 45-31 45 2 0 15-10 22-23 30l-96 56" />
+    <path d="M232 133c-62-6-92-63-59-112" />
+    <path d="M156 22h52l-36 39" fill="#7C3AED" stroke="none" />
+    <path d="M463 41c70-8 124 43 112 108" />
+    <path d="M572 150l-50-17 38-38" fill="#312E81" stroke="none" />
+    <path d="M259 129c11-20 34-28 57-20 21 7 39 7 59-2 21-10 50-5 64 16" />
+    <path d="M277 124l-29 22 21 31 31-21" />
+    <path d="M427 118h54v83h-42v-48h-26v48h-43v-83h57Z" />
+    <path d="M372 144h18v18h-18zM458 144h18v18h-18z" stroke-width="8" />
+  </g>
+  <text x="92" y="250" fill="#312E81" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="900" letter-spacing="1">
+    DONASI<tspan fill="#7C3AED">PAKAIAN</tspan><tspan fill="#4C1D95">.CO</tspan>
+  </text>
+  <text x="194" y="286" fill="#7C3AED" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800" letter-spacing="4">
+    SIKLUS KEBAIKAN BERLANJUT
+  </text>
+</svg>
