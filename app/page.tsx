@@ -726,6 +726,11 @@ export default function HomePage() {
             © {new Date().getFullYear()} DonasiPakaian.co. Berikan pakaian,
             lanjutkan kebaikan.
           </p>
+          <p className="mt-2 text-violet-400">
+            Made with{" "}
+            <Heart className="inline-block h-3.5 w-3.5 fill-pink-400 text-pink-400" />{" "}
+            by Dwiky
+          </p>
         </div>
       </footer>
     </main>
