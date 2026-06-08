@@ -13,6 +13,21 @@ import {
 import { FormEvent, useMemo, useState } from "react";
 
 const WHATSAPP_LINK_BASE = "https://wa.me/6285882918721";
+const GOOGLE_FORM_RESPONSE_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdTGdtlc1xG450ohStI9OQGjOpiS1-SWBqHpso3MA0o86x9Gw/formResponse";
+
+const googleFormEntries = {
+  namaLengkap: "entry.879359656",
+  noWhatsapp: "entry.49143072",
+  jenisBarang: "entry.1790456246",
+  kondisi: "entry.1434407313",
+  alasan: "entry.52508317",
+  setujuDijual: "entry.2120479460",
+  setujuDisalurkan: "entry.1803293427",
+  tanggalKirim: "entry.698013330",
+  caraKirim: "entry.1377315371",
+  harapan: "entry.324832852",
+} as const;
 
 const RECIPIENT_NAME = "Acha/Anil (donasipakaian.co)";
 const RECIPIENT_PHONE = "0858-8291-8721";
@@ -35,9 +50,9 @@ const jenisBarangOptions = [
 const kondisiOptions = ["Sangat baik", "Baik", "Cukup baik", "Cukup"];
 
 const caraPengirimanOptions = [
-  "Datang langsung (Harap konfirmasi admin WhatsApp kami)",
+  "Datang langsung (Harap konfirmasi admin Whatsapp kami)",
   "Via ekspedisi (JNE/J&T/TIKI/Ninja Express/Lainnya)",
-  "Via pengiriman instan (Gosend/Grab Express/Lalamove/Maxim)",
+  "Via pengiriman instan (Gosend/Grab express/Lalamove/Maxim)",
 ];
 
 type FormState = {
@@ -78,6 +93,8 @@ export function DonationForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const canSubmit = useMemo(
     () =>
@@ -102,13 +119,34 @@ export function DonationForm() {
     }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!canSubmit) return;
-    setSubmitted(true);
-    setCopied(false);
-    if (typeof window !== "undefined") {
-      window.scrollTo({ behavior: "smooth", top: window.scrollY });
+    if (!canSubmit || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      await fetch(GOOGLE_FORM_RESPONSE_URL, {
+        body: buildGoogleFormPayload(form),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        method: "POST",
+        mode: "no-cors",
+      });
+
+      setSubmitted(true);
+      setCopied(false);
+      if (typeof window !== "undefined") {
+        window.scrollTo({ behavior: "smooth", top: window.scrollY });
+      }
+    } catch {
+      setSubmitError(
+        "Form belum terkirim. Cek koneksi internet kamu, lalu coba kirim lagi.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -116,6 +154,7 @@ export function DonationForm() {
     setForm(initialState);
     setSubmitted(false);
     setCopied(false);
+    setSubmitError("");
   }
 
   const instructionText = useMemo(
@@ -523,12 +562,17 @@ export function DonationForm() {
       <div className="border-t border-[#EDE3FF] pt-6">
         <Button
           className="h-12 w-full bg-[#7C3AED] px-7 text-base text-white shadow-lg shadow-violet-300/50 hover:bg-[#4B1D78] focus-visible:ring-[#7C3AED] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-          disabled={!canSubmit}
+          disabled={!canSubmit || isSubmitting}
           leftIcon={<Send aria-hidden size={18} />}
           type="submit"
         >
-          Kirim Form Donasi
+          {isSubmitting ? "Mengirim..." : "Kirim Form Donasi"}
         </Button>
+        {submitError && (
+          <p className="mt-3 text-xs font-semibold text-red-600">
+            {submitError}
+          </p>
+        )}
         {!canSubmit && (
           <p className="mt-3 text-xs text-[#4B5563]">
             Lengkapi semua kolom bertanda <span className="text-[#7C3AED]">*</span>{" "}
@@ -538,4 +582,37 @@ export function DonationForm() {
       </div>
     </form>
   );
+}
+
+function buildGoogleFormPayload(form: FormState) {
+  const params = new URLSearchParams();
+  const [year, month, day] = form.tanggalKirim.split("-");
+
+  params.set(googleFormEntries.namaLengkap, form.namaLengkap.trim());
+  params.set(googleFormEntries.noWhatsapp, form.noWhatsapp.trim());
+  form.jenisBarang.forEach((value) => {
+    params.append(googleFormEntries.jenisBarang, value);
+  });
+  params.set(googleFormEntries.kondisi, form.kondisi);
+  params.set(googleFormEntries.alasan, form.alasan.trim());
+  params.set(googleFormEntries.setujuDijual, form.setujuDijual);
+  if (form.setujuDisalurkan) {
+    params.set(googleFormEntries.setujuDisalurkan, form.setujuDisalurkan);
+  }
+  params.set(`${googleFormEntries.tanggalKirim}_year`, year);
+  params.set(`${googleFormEntries.tanggalKirim}_month`, String(Number(month)));
+  params.set(`${googleFormEntries.tanggalKirim}_day`, String(Number(day)));
+  params.set(googleFormEntries.caraKirim, form.caraKirim);
+  params.set(googleFormEntries.harapan, form.harapan.trim());
+
+  params.set(`${googleFormEntries.jenisBarang}_sentinel`, "");
+  params.set(`${googleFormEntries.kondisi}_sentinel`, "");
+  params.set(`${googleFormEntries.setujuDijual}_sentinel`, "");
+  params.set(`${googleFormEntries.setujuDisalurkan}_sentinel`, "");
+  params.set(`${googleFormEntries.caraKirim}_sentinel`, "");
+  params.set("fvv", "1");
+  params.set("pageHistory", "0");
+  params.set("submit", "Submit");
+
+  return params;
 }

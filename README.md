@@ -17,14 +17,14 @@ Portal donasi pakaian layak pakai. Salurkan pakaian dari rumahmu ke saudara yang
 
 ```
 app/
-  layout.tsx          → Root layout + SEO metadata + FloatingWhatsApp
-  page.tsx            → Homepage (Hero, Siklus Kebaikan, Visi, Misi, dst)
-  donation-form.tsx   → Embed Google Form donasi
-  floating-wa.tsx     → Tombol WhatsApp mengambang
-  globals.css         → Tailwind + style global
-components/ui/        → Button, Card (komponen reusable)
-lib/cn.ts             → Utility classnames
-public/               → Logo & aset statis
+  layout.tsx          -> Root layout + SEO metadata + FloatingWhatsApp
+  page.tsx            -> Homepage (Hero, Siklus Kebaikan, Visi, Misi, dst)
+  donation-form.tsx   -> Form donasi yang submit langsung ke Google Forms
+  floating-wa.tsx     -> Tombol WhatsApp mengambang
+  globals.css         -> Tailwind + style global
+components/ui/        -> Button, Card (komponen reusable)
+lib/cn.ts             -> Utility classnames
+public/               -> Logo & aset statis
 ```
 
 ## Menjalankan Lokal
